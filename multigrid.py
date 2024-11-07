@@ -9,4 +9,4 @@ def jac_smoothing(phi, f, h):
 def V_cycle(phi, f, h):
 
     # Pre-smoothing
-    phi = jac_smoothing
+    phi = jac_smoothing(phi, f, h)
