@@ -12,12 +12,14 @@ def jac_smoothing(f, h, nsmooth, A):
     return uk
 
 def test_smoother():
-    n = 3
-    h = 1
+    n = 4
+    h = 1/(n+1)
     A = get_poisson_fd_3d(n) * 1/h**2
-    print(A.shape)
-    #ue = np.random.rand(n)
-    #b = A @ ue
+    #print(A.shape)
+    ue = np.random.rand(n)
+    b = A @ ue
+
+    
 
 test_smoother()
 
