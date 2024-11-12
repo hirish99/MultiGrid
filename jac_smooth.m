@@ -1,6 +1,6 @@
 hdr;
 
-n=3; h=1/(n+1); h2i=1./(h*h);
+n=10; h=1/(n+1); h2i=1./(h*h);
 
 x = h*[1:n]';
 e = ones(n^3,1);
@@ -12,7 +12,7 @@ A_3d = kron(A, eye(n^2)) + kron(eye(n), A_2d);
 
 A_3d = h2i * A_3d;
 
-di = 6 / h^2;
+di = h^2 / 6;
 
 k = [1:n]';
 V = sqrt(2*h)*sin((h*pi)*(k*k'));
@@ -22,8 +22,8 @@ Lam = (2*h2i)*(1-cos(h*pi*k));
 lmax = 2;
 lmin = 0.6;
 
-di = h*h/2;
-LS = di*Lam;
+
+
 
 
 nc = n/2;
@@ -44,23 +44,25 @@ b = A_3d*ue;
 u=0*b; nsmooth=4; omega=2/3;
 
 r=b;
-for k=1:20
-   e=ue-u;
-
-%  u=u+cheb_smooth(r,lmax,lmin,nsmooth,A);
+for k=1:1000
+   
+   %  u=u+cheb_smooth(r,lmax,lmin,nsmooth,A);
    for nu=1:nsmooth;
       u=u+omega*di*r;
       r=b-A_3d*u;
    end;
-
+   
    % coarse grid correction
    % ec = J_3d * (Aci_3d * (J_3d' * r));
    % u = u + ec;
    % r = b - A_3d*u;
-
+   % norm(r)
+   
+   e=ue-u;
    err = norm(e)/norm(ue)
    if err <= 1e-8
      k
+     break;
    end;
 
 
