@@ -2,7 +2,7 @@ import numpy as np
 import scipy
 
 def get_poisson_fd_3d(n):
-    diagonals = [np.ones(n-1), -2*np.ones(n), np.ones(n-1)]
+    diagonals = [-np.ones(n-1), 2*np.ones(n), -np.ones(n-1)]
     offsets = np.array([-1, 0, 1])
     Ax = scipy.sparse.diags(diagonals, offsets, format='csc')
 
