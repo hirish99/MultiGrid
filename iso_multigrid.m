@@ -8,7 +8,6 @@ A = spdiags([-e 2*e -e], -1:1, n, n);
 
 A_2d = kron(A, eye(n)) + kron(eye(n), A);
 A_3d = kron(A, eye(n^2)) + kron(eye(n), A_2d);
-% disp(full(A_3d))
 
 A_3d = h2i * A_3d;
 
