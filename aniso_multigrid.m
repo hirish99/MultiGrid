@@ -1,21 +1,36 @@
 hdr;
 
-n=31; h=1/(n+1); h2i=1./(h*h);
+% In the anisotropic case n represents the same thing
+% there are n^3 cells
+x_width = 1;
+y_width = 1;
+z_width = 1;
+n=31; 
+hx=x_width/(n+1); 
+hy=y_width/(n+1);
+hz=z_width/(n+1);
 
-x = h*[1:n]';
+% h2i=1./(h*h); No need for h2i
+
+x = hx*[1:n]';
+y = hy*[1:n]';
+z = hz*[1:n]';
+
 e = ones(n^3,1);
-A = spdiags([-e 2*e -e], -1:1, n, n);
+Ax = (1/hx^2)*spdiags([-e 2*e -e], -1:1, n, n);
+Ay = (1/hy^2)*spdiags([-e 2*e -e], -1:1, n, n);
+Az = (1/hz^2)*spdiags([-e 2*e -e], -1:1, n, n);
+Id = eye(n^3);
 
-A_2d = kron(A, eye(n)) + kron(eye(n), A);
-A_3d = kron(A, eye(n^2)) + kron(eye(n), A_2d);
-
-A_3d = h2i * A_3d;
+A_3d = kron(Id, kron(Id, Ax)) + kron(Id, kron(Ay, Id)) + kron(Az, kron(Id, Id));
 
 k = [1:n]';
-V = sqrt(2*h)*sin((h*pi)*(k*k'));
-V_3d = kron(V, kron(V, V));
+Vx = sqrt(2*hx)*sin((hx*pi)*(k*k'));
+Vy = sqrt(2*hy)*sin((hy*pi)*(k*k'));
+Vz = sqrt(2*hz)*sin((hz*pi)*(k*k'));
+V_3d = kron(Vx, kron(Vy, Vz)); %Is this order correct?
 
-Lam = (2*h2i)*(1-cos(h*pi*k));
+% Lam = (2*h2i)*(1-cos(h*pi*k));
 lmax = 2;
 lmin = 0.6;
 
@@ -33,7 +48,7 @@ r=b;
 
 cnt = 0;
 r_norm = 1;
-while r_norm > 1e-8;
+while r_norm > 1e-2;
     u = vcycle(u, b, A_3d, n);
     residual = b - A_3d*u;
     cnt = cnt+1;
