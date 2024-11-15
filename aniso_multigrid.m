@@ -5,7 +5,7 @@ hdr;
 x_width = 1;
 y_width = 1;
 z_width = 1;
-n=31; 
+n=4; 
 hx=x_width/(n+1); 
 hy=y_width/(n+1);
 hz=z_width/(n+1);
@@ -20,7 +20,7 @@ e = ones(n^3,1);
 Ax = (1/hx^2)*spdiags([-e 2*e -e], -1:1, n, n);
 Ay = (1/hy^2)*spdiags([-e 2*e -e], -1:1, n, n);
 Az = (1/hz^2)*spdiags([-e 2*e -e], -1:1, n, n);
-Id = eye(n^3);
+Id = eye(n);
 
 A_3d = kron(Id, kron(Id, Ax)) + kron(Id, kron(Ay, Id)) + kron(Az, kron(Id, Id));
 
@@ -49,7 +49,7 @@ r=b;
 cnt = 0;
 r_norm = 1;
 while r_norm > 1e-2;
-    u = vcycle(u, b, A_3d, n);
+    u = vcycle_aniso(u, b, A_3d, n, x_width, y_width, z_width);
     residual = b - A_3d*u;
     cnt = cnt+1;
     r_norm = norm(residual);
