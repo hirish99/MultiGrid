@@ -16,15 +16,15 @@ function [u] = vcycle_aniso(u, rhs, A, n, x_width, y_width, z_width);
     z = [1:n]'/(n+1) * z_width;
     zc = [1:nc]'/(nc+1) * z_width;
 
-    J_1dx = lin_interp_mat([0; x; 1],[0; xc; 1]);
-    J_1dy = lin_interp_mat([0; y; 1],[0; yc; 1]);
-    J_1dz = lin_interp_mat([0; z; 1],[0; zc; 1]);
+    J_1dx = lin_interp_mat([0; x; x_width],[0; xc; x_width]);
+    J_1dy = lin_interp_mat([0; y; y_width],[0; yc; y_width]);
+    J_1dz = lin_interp_mat([0; z; z_width],[0; zc; z_width]);
 
     J_1dx = J_1dx(2:end-1,2:end-1);
     J_1dy = J_1dy(2:end-1,2:end-1);
     J_1dz = J_1dz(2:end-1,2:end-1);
 
-    J = kron(J_1dz, kron(J_1dy, J_1dx)); %Is this order correct?
+    J = kron(J_1dz, kron(J_1dy, J_1dx)); %Is this order correct? Yes
 
     rc = J' * r;
 
