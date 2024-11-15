@@ -2,7 +2,7 @@ hdr;
 
 % In the anisotropic case n represents the same thing
 % there are n^3 cells
-x_width = 2.1;
+x_width = 2;
 y_width = 1;
 z_width = 1;
 n=8; 
@@ -39,7 +39,7 @@ lmin = 0.6;
 
 % ue=0*x;
 ue=rand(n^3,1);
-ue=V_3d*e;
+ue=V_3d*ue;
 
 b = A_3d*ue;
 u=0*b;
@@ -48,7 +48,7 @@ r=b;
 
 cnt = 0;
 r_norm = 1;
-while r_norm > 1e-2;
+while r_norm > 1e-8;
     u = vcycle_aniso(u, b, A_3d, n, x_width, y_width, z_width);
     residual = b - A_3d*u;
     cnt = cnt+1;
