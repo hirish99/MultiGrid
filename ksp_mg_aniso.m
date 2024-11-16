@@ -4,7 +4,9 @@ hdr;
 k = 5;
 % In the anisotropic case n represents the same thing
 % there are n^3 cells
-x_width = 2;
+n=2^k-1;
+
+x_width = 4;
 y_width = 1;
 z_width = 1;
 n=8; 
@@ -30,13 +32,9 @@ k = [1:n]';
 Vx = sqrt(2*hx)*sin((hx*pi)*(k*k'));
 Vy = sqrt(2*hy)*sin((hy*pi)*(k*k'));
 Vz = sqrt(2*hz)*sin((hz*pi)*(k*k'));
-V_3d = kron(Vz, kron(Vy, Vx)); %Is this order correct?
+V_3d = kron(Vz, kron(Vy, Vx)); % Is this order correct?
 
-k = [1:n]';
-V = sqrt(2*h)*sin((h*pi)*(k*k'));
-V_3d = kron(V, kron(V, V));
-
-Lam = (2*h2i)*(1-cos(h*pi*k));
+% Lam = (2*h2i)*(1-cos(h*pi*k));
 lmax = 2;
 lmin = 0.6;
 
@@ -49,10 +47,10 @@ u = 0*b;
 % M = diag(A_3d);
 % Mi = diag(1./M);
 
-% PCG
+% PCG 
 r=b;
 % z = Mi * r;
-z = vcycle(r*0, r, A_3d, n);
+z = vcycle_aniso(r*0, r, A_3d, n, x_width, y_width, z_width);
 p = z;
 w = A_3d*p;
 cnt = 0;
@@ -63,7 +61,7 @@ while norm(r) > 1e-8;
     z_old = z;
     r = r_old - alpha * (w);
     % z = Mi * r;
-    z = vcycle(z*0, r, A_3d, n);
+    z = vcycle_aniso(z*0, r, A_3d, n, x_width, y_width, z_width);
     B = (r' * z) / (r_old' * z_old);
     p = z + B * p;
     w = A_3d*p;
