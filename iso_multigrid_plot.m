@@ -1,4 +1,4 @@
-function [errors] = iso_multigrid_plot(n, n_iter);
+function [errors] = iso_multigrid_plot(n, n_iter, ue);
 
     h=1/(n+1); h2i=1./(h*h);
 
@@ -23,8 +23,8 @@ function [errors] = iso_multigrid_plot(n, n_iter);
 
 
     % ue=0*x;
-    ue=rand(n^3,1);
-    ue=V_3d*e;
+    % ue=rand(n^3,1);
+    ue=V_3d*ue;
 
     b = A_3d*ue;
     u=0*b;

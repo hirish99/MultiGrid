@@ -1,7 +1,4 @@
-function [errors] = iso_multigrid_plot(n, n_iter, x_width, y_width, z_width);
-
-    % In the anisotropic case n represents the same thing
-    % there are n^3 cells
+function [errors] = aniso_multigrid_plot(n, n_iter, ue, x_width, y_width, z_width);
 
     hx=x_width/(n+1); 
     hy=y_width/(n+1);
@@ -17,9 +14,10 @@ function [errors] = iso_multigrid_plot(n, n_iter, x_width, y_width, z_width);
     Ax = (1/hx^2)*spdiags([-e 2*e -e], -1:1, n, n);
     Ay = (1/hy^2)*spdiags([-e 2*e -e], -1:1, n, n);
     Az = (1/hz^2)*spdiags([-e 2*e -e], -1:1, n, n);
-    Id = eye(n);
+    Id = speye(n);
 
     A_3d = kron(Id, kron(Id, Ax)) + kron(Id, kron(Ay, Id)) + kron(Az, kron(Id, Id));
+
 
     k = [1:n]';
     Vx = sqrt(2*hx)*sin((hx*pi)*(k*k'));
@@ -32,10 +30,10 @@ function [errors] = iso_multigrid_plot(n, n_iter, x_width, y_width, z_width);
     lmin = 0.6;
 
 
-
+    
 
     % ue=0*x;
-    ue=rand(n^3,1);
+    % ue=rand(n^3,1);
     ue=V_3d*ue;
 
     b = A_3d*ue;
@@ -49,5 +47,5 @@ function [errors] = iso_multigrid_plot(n, n_iter, x_width, y_width, z_width);
         u = vcycle_aniso(u, b, A_3d, n, x_width, y_width, z_width);
         % residual = b - A_3d*u;
         cnt = cnt+1;
-        erros(cnt) = norm(u-ue, Inf)
+        errors(cnt) = norm(u-ue, Inf);
     end;
