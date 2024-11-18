@@ -1,6 +1,6 @@
-function [errors] = iso_multigrid_plot(n, tolerance, n_iter);
+function [errors] = iso_multigrid_plot(n, n_iter);
 
-    n=31; h=1/(n+1); h2i=1./(h*h);
+    h=1/(n+1); h2i=1./(h*h);
 
     x = h*[1:n]';
     e = ones(n^3,1);
@@ -38,8 +38,5 @@ function [errors] = iso_multigrid_plot(n, tolerance, n_iter);
         u = vcycle(u, b, A_3d, n);
         % residual = b - A_3d*u;
         cnt = cnt+1;
-        errors(cnt) = norm(u - ue, Inf)
+        errors(cnt) = norm(u - ue, Inf);
     end;
-
-
-disp(iso_multigrid_plot(4, 1e-8))
