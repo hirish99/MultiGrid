@@ -1,5 +1,6 @@
 function [errors] = aniso_multigrid_plot(n, n_iter, ue, x_width, y_width, z_width);
 
+
     hx=x_width/(n+1); 
     hy=y_width/(n+1);
     hz=z_width/(n+1);

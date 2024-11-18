@@ -35,7 +35,7 @@ function [u] = vcycle_aniso(u, rhs, A, n, x_width, y_width, z_width);
         ec = Ac \ rc;
     else
         nc = (n+1)/2-1;
-        ec = vcycle_aniso(ec, rc, Ac, nc);
+        ec = vcycle_aniso(ec, rc, Ac, nc, x_width, y_width, z_width);
     end;
     % coarse grid correction
     ef = J * ec;
