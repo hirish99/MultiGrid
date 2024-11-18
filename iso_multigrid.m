@@ -15,16 +15,11 @@ k = [1:n]';
 V = sqrt(2*h)*sin((h*pi)*(k*k'));
 V_3d = kron(V, kron(V, V));
 
-Lam = (2*h2i)*(1-cos(h*pi*k));
-lmax = 2;
-lmin = 0.6;
-
-
 
 
 % ue=0*x;
 ue=rand(n^3,1);
-ue=V_3d*e;
+ue=V_3d*ue;
 
 b = A_3d*ue;
 u=0*b;
